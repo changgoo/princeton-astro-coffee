@@ -10,9 +10,9 @@ def _scrape_authors(url):
     This function is specific to Princeton astro webpages. Other
     department/institution webpages may have different tags.
     """
-    r = requests.get(url)
+    r = requests.get(url,verify=False)
     soup = BeautifulSoup(r.text, 'html.parser')
-    authors = soup.find_all('div', class_='content-list-item feature-is-3x4')
+    authors = soup.find_all('div', class_='content-list-item feature-is-3x4 no-featured-video')
     lines = []
     for author in authors:
         name = author.find('span', class_='field field--name-title field--type-string field--label-hidden').text
@@ -24,6 +24,7 @@ def _scrape_authors(url):
 	name = name.encode('utf-8')
 	email = email.encode('utf-8')
         lines.append("{0},{1}\n".format(name, email))
+    print(authors)
     return lines
 
 def auto_update_author_list(output_filename='static/images/AstroDeptList.csv'):
@@ -43,8 +44,9 @@ def auto_update_author_list(output_filename='static/images/AstroDeptList.csv'):
     """
     pages = (
              "https://web.astro.princeton.edu/people/astronomy-Faculty%20and%20Research%20Scholars",
-             "https://web.astro.princeton.edu/people/postdocs-researchers?page=0",
-             "https://web.astro.princeton.edu/people/postdocs-researchers?page=1",
+             "https://web.astro.princeton.edu/people/associated-faculty-department-affiliates",
+             "https://web.astro.princeton.edu/people/postdocs-researchers",
+             #"https://web.astro.princeton.edu/people/postdocs-researchers?page=1",
              "https://web.astro.princeton.edu/people/graduate-students",
              "https://web.astro.princeton.edu/people/undergraduate-students",
     )

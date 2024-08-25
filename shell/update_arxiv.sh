@@ -22,9 +22,13 @@ echo "astro-coffee server directory: $BASEPATH"
 cd $BASEPATH/run
 source $BASEPATH/run/bin/activate
 
-# fakery = False means one can run this on a headless server
-python -c 'import arxivutils, arxivdb; x = arxivutils.arxiv_update(fakery=False); arxivdb.insert_articles(x,fullname_match_threshold=72,firstname_match_threshold=93)'
-
+#rsstail -i 6 -e 35 http://arxiv.org/rss/astro-ph | diff ../shell/rss.xml - | while read line
+#do
+    # fakery = False means one can run this on a headless server
+python update_arxiv.py
+    #python -c 'import arxivutils, arxivdb; x = arxivutils.arxiv_update(fakery=False); arxivdb.insert_articles(x,fullname_match_threshold=72,firstname_match_threshold=93)'
+#    break
+#done
 deactivate
 
 echo "arxiv update ended at: " `date`
