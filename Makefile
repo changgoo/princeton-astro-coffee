@@ -11,7 +11,7 @@ all: install
 install:
 	# create python virtualenv in the run directory
 	# no system-site packages to keep all requirements in-house
-	virtualenv $(BINDIR)
+	virtualenv-2.7 $(BINDIR)
 
 	# create the logs and pids directories
 	mkdir -p $(BINDIR)/logs
